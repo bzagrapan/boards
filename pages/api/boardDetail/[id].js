@@ -5,18 +5,19 @@ const getBoard = async (req) => {
     return { data: boardsDb.get(req.query.id) };
   } catch (error) {
     console.log(error);
-    return { data: [] };
+    return { data: {} };
   }
 };
 
 const updateBoard = async (req) => {
   try {
     const { body } = req;
-    boardsDb.create(body);
-    return { data: boardsDb.list() };
+    const { lists, name, id } = body;
+    boardsDb.update({ id, lists, name });
+    return { data: boardsDb.get(id) };
   } catch (error) {
     console.log(error);
-    return { data: [] };
+    return { data: {} };
   }
 };
 

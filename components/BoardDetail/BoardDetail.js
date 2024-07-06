@@ -3,14 +3,22 @@ import { Card } from "@mui/material";
 import styles from "./BoardDetail.module.css";
 import AddItem from "../AddItem/AddItem";
 import _ from "lodash";
+import { axiosInstance } from "../../services/Axios";
 
 // TODO (nice to have): In the future, list items could be draggable, so you can move them between columns.
 function BoardDetail({ data }) {
   const [board, setBoard] = useState(data);
 
-  // TODO: For the simplification, I save new items and lists only to state. I don't save them into the JSON file,
-  // because it would require more time. I think I already managed to show, how saving the data into the file
-  // could be made in saving new boards on home page. Something similar would be available also here.
+  const updateBoard = (newBoard) => {
+    axiosInstance
+      .post(`/api/boardDetail/${data.id}`, newBoard)
+      .then((response) => {
+        const boardData = response?.data?.data;
+        setBoard(boardData);
+      })
+      .catch((e) => console.log(e));
+  };
+
   const addItemIntoList = (listId, item) => {
     let newBoard = _.cloneDeep(board);
     let list = newBoard.lists.find((list) => {
@@ -19,13 +27,14 @@ function BoardDetail({ data }) {
 
     list.items.push(item);
 
-    setBoard(newBoard);
+    updateBoard(newBoard);
   };
 
   const addNewList = (list) => {
     let newBoard = _.cloneDeep(board);
     newBoard.lists.push(list);
-    setBoard(newBoard);
+
+    updateBoard(newBoard);
   };
 
   return (
