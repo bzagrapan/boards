@@ -1,0 +1,17 @@
+.boardDetailListWrapper {
+    gap: 12px;
+    padding: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    min-width: 240px;
+}
+
+.itemWrapper {
+    background-color: rgba(80, 223, 61, 0.552);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: larger;
+    padding: 6px;
+}
